@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Select a Major</title>
+</head>
+<body>
+
+<h1>Select a Major</h1>
+
+<button id="citBtn">CIT Majors</button>
+<button id="busBtn">Business Majors</button>
+
+<p>We filter our dataset by major</p>
+
+<div id="results"></div>
+
+<script id="students-template" type="text/x-handlebars-template">
+<table border="1">
+<tr><th>Name</th><th>Major</th><th>Midterm</th><th>Final</th></tr>
+{{#each this}}
+<tr>
+<td>{{name}}</td>
+<td>{{major}}</td>
+<td>{{midterm}}</td>
+<td>{{final}}</td>
+</tr>
+{{/each}}
+</table>
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+<script>
+let allStudents = [];
+
+fetch("cit5students.json")
+.then(r => r.json())
+.then(d => allStudents = d);
+
+window.onload = () => {
+    const template = Handlebars.compile(document.getElementById("students-template").innerHTML);
+
+    document.getElementById("citBtn").onclick = () => {
+        const list = allStudents.filter(s => s.major === "CIT");
+        document.getElementById("results").innerHTML = template(list);
+    };
+
+    document.getElementById("busBtn").onclick = () => {
+        const list = allStudents.filter(s => s.major === "BUS");
+        document.getElementById("results").innerHTML = template(list);
+    };
+};
+</script>
+
+</body>
+</html>
