@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
 
@@ -19,13 +19,13 @@
     </div>
     <ul class="nav navbar-nav">
         <li><a href="index.html">All Tickets</a></li>
-        <li class="active"><a href="25over.html">25mph or more</a></li>
+        <li class="active"><a href="25over.html">25mph or more over</a></li>
     </ul>
 </nav>
 
 <div id="ticketApp">
 
-    <h2>Tickets 25 mph or more over</h2>
+    <h2>Tickets July 4, 2014, Minneapolis/St. Paul, 25 mph or more over the limit</h2>
 
     <table class="table table-bordered table-striped">
         <tr>
@@ -62,7 +62,7 @@ let app = Vue.createApp({
         async getData() {
             const response = await fetch('tickets1.json')
             const data = await response.json()
-            this.tickets = data.filter(function(item){
+            this.tickets = data.filter(function(item) {
                 return (item.actual_speed - item.posted_speed) >= 25
             })
         }
