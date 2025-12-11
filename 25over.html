@@ -1,80 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>speeding tickets - 25 mph or more</title>
+    <title>25 mph or more</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-    <!-- Vue -->
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
 
 <div class="container">
 
-    <!-- NAV BAR (same as index, but 25over is active) -->
-    <nav class="navbar navbar-inverse">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Our Website</a>
-        </div>
-        <div>
-            <ul class="nav navbar-nav">
-                <li><a href="index.html">All Tickets</a></li>
-                <li class="active"><a href="25over.html">25mph or more over</a></li>
-            </ul>
-        </div>
-    </nav>
+<nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Our Website</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li><a href="index.html">All Tickets</a></li>
+        <li class="active"><a href="25over.html">25mph or more</a></li>
+    </ul>
+</nav>
 
-    <div id="ticketApp">
-        <h2>Tickets July 4, 2014, Minneapolis/St. Paul, 25 mph or more over the limit</h2>
+<div id="ticketApp">
 
-        <table class="table table-bordered table-striped">
-            <tr>
-                <th>Ticket ID</th>
-                <th>Time</th>
-                <th>Posted Speed</th>
-                <th>MPH Over</th>
-                <th>Violator Sex</th>
-            </tr>
-            <tr v-for="ticket in tickets">
-                <td>{{ ticket.tid }}</td>
-                <td>{{ ticket.stop_time }}</td>
-                <td>{{ ticket.posted_speed }}</td>
-                <td>{{ ticket.actual_speed - ticket.posted_speed }}</td>
-                <td>{{ ticket.violator_sex }}</td>
-            </tr>
-        </table>
-    </div> <!-- end #ticketApp -->
+    <h2>Tickets 25 mph or more over</h2>
 
-</div> <!-- end .container -->
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Ticket ID</th>
+            <th>Time</th>
+            <th>Posted Speed</th>
+            <th>MPH Over</th>
+            <th>Violator Sex</th>
+        </tr>
+        <tr v-for="ticket in tickets">
+            <td>{{ticket.tid}}</td>
+            <td>{{ticket.stop_time}}</td>
+            <td>{{ticket.posted_speed}}</td>
+            <td>{{ticket.actual_speed - ticket.posted_speed}}</td>
+            <td>{{ticket.violator_sex}}</td>
+        </tr>
+    </table>
+
+</div>
+
+</div>
 
 <script>
-    let app = Vue.createApp({
-        data() {
-            return {
-                tickets: []   // filtered tickets
-            }
-        },
-        created() {
-            this.getData();
-        },
-        methods: {
-            async getData() {
-                const response = await fetch('tickets1.json');
-                const data = await response.json();
-
-                // keep only tickets that are 25 mph or more over the limit
-                this.tickets = data.filter(function (item) {
-                    return (item.actual_speed - item.posted_speed) >= 25;
-                });
-            }
+let app = Vue.createApp({
+    data() {
+        return {
+            tickets: []
         }
-    });
-
-    app.mount('#ticketApp');
+    },
+    created() {
+        this.getData()
+    },
+    methods: {
+        async getData() {
+            const response = await fetch('tickets1.json')
+            const data = await response.json()
+            this.tickets = data.filter(function(item){
+                return (item.actual_speed - item.posted_speed) >= 25
+            })
+        }
+    }
+})
+app.mount('#ticketApp')
 </script>
 
 </body>
